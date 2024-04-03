@@ -12,3 +12,7 @@ type NoteService interface {
 	FindById(noteId int) response.NoteResponse
 	FindAll() []response.NoteResponse
 }
+
+type BookService interface {
+	FindAll() []response.BookResponse
+}

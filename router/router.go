@@ -28,3 +28,12 @@ func NewRouter(noteController *controller.NoteController) *fiber.App {
 
 	return router
 }
+
+func BookRouter(bookController *controller.BookController) *fiber.App {
+	router := fiber.New()
+	/* Custom */
+	router.Route("/book", func(router fiber.Router) {
+		router.Get("", bookController.FindAll)
+	})
+	return router
+}

@@ -9,3 +9,7 @@ type NoteRepository interface {
 	FindById(noteId int) (model.Note, error)
 	FindAll() []model.Note
 }
+
+type BookRepository interface {
+	FindAll() []model.Book
+}

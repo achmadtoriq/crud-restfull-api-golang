@@ -24,6 +24,7 @@ func main() {
 	db := config.ConnectionDB(&loadConfig)
 	validate := validator.New()
 	db.Table("notes").AutoMigrate(&model.Note{})
+	db.Table("books").AutoMigrate(&model.Book{})
 	// init Repository
 	noteRepository := repository.NewNoteRepositoryImpl(db)
 	// Init Service
@@ -33,7 +34,13 @@ func main() {
 	// Init Router
 	routes := router.NewRouter(noteController)
 
+	bookRepository := repository.NewBookRepositoryImpl(db)
+	bookService := service.NewBookServiceImpl(bookRepository)
+	bookController := controller.NewBookController(bookService)
+	bookRoutes := router.BookRouter(bookController)
+
 	app := fiber.New()
 	app.Mount("/api", routes)
+	app.Mount("/api", bookRoutes)
 	log.Fatal(app.Listen(":" + loadConfig.Port))
 }
